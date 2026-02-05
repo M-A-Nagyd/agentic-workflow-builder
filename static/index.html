@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Agentic Workflow Builder</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, sans-serif;
+      background: linear-gradient(120deg, #020617, #020617);
+      color: #e5e7eb;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 40px;
+    }
+
+    h1 { font-size: 36px; margin-bottom: 4px; }
+    h2 { margin-top: 0; }
+
+    .subtitle {
+      color: #94a3b8;
+      margin-bottom: 32px;
+    }
+
+    .card {
+      background: #020617;
+      border: 1px solid #1e293b;
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    textarea, input {
+      width: 100%;
+      background: #020617;
+      color: #e5e7eb;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 12px;
+      font-family: monospace;
+      font-size: 14px;
+    }
+
+    textarea { min-height: 160px; }
+
+    button {
+      background: linear-gradient(90deg, #6366f1, #4f46e5);
+      border: none;
+      color: white;
+      padding: 12px 18px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 12px;
+      margin-right: 8px;
+    }
+
+    button.secondary {
+      background: #020617;
+      border: 1px solid #334155;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .status {
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .success { color: #22c55e; }
+    .failed { color: #ef4444; }
+    .running { color: #facc15; }
+
+    .hint {
+      color: #94a3b8;
+      font-size: 13px;
+      margin-top: 6px;
+    }
+
+    .log {
+      background: #020617;
+      border-left: 4px solid #334155;
+      padding: 14px;
+      margin-top: 10px;
+      white-space: pre-wrap;
+      font-family: monospace;
+      font-size: 13px;
+    }
+
+    .divider {
+      height: 1px;
+      background: #1e293b;
+      margin: 24px 0;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Agentic Workflow Builder</h1>
+  <div class="subtitle">
+    Build, generate, run, and debug multi-step AI workflows with full transparency.
+  </div>
+
+  <!-- MODE 1: PROMPT → WORKFLOW -->
+  <div class="card">
+    <h2>🧠 Generate Workflow from Prompt</h2>
+    <textarea id="promptInput" placeholder="Example: Build a workflow that generates Python code, explains it, and writes tests"></textarea>
+    <button onclick="generateWorkflow()">Generate Workflow</button>
+    <div class="hint">
+      The system converts your intent into a structured agentic workflow.
+    </div>
+  </div>
+
+  <!-- MODE 2: MANUAL WORKFLOW -->
+  <div class="card">
+    <h2>🛠️ Edit / Create Workflow Manually</h2>
+    <textarea id="workflowJson"></textarea>
+    <button onclick="createWorkflow()">Create Workflow</button>
+    <div class="hint">
+      You can define any workflow: code, docs, JSON, SQL, plans, etc.
+    </div>
+  </div>
+
+  <!-- RUN -->
+  <div class="card">
+    <h2>🚀 Run Workflow</h2>
+    <input id="workflowId" placeholder="Workflow ID will appear here" />
+    <button onclick="runWorkflow()">Run</button>
+  </div>
+
+  <!-- RESULT -->
+  <div class="card">
+    <h2>📊 Execution Progress</h2>
+    <div id="stateText" class="status"></div>
+    <div id="stateHint" class="hint"></div>
+    <div class="divider"></div>
+    <div id="logs"></div>
+    <button id="retryBtn" class="secondary" style="display:none;" onclick="retryRun()">
+      🔁 Retry Later
+    </button>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
